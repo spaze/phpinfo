@@ -1,0 +1,39 @@
+name: PHP Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version:
+          - 7.1
+          - 7.2
+          - 7.3
+          - 7.4
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: OS info
+      run: cat /etc/os-release
+
+    - name: Set default PHP version
+      run: sudo update-alternatives --set php /usr/bin/php${{ matrix.php-version }}
+
+    - name: PHP info
+      run: |
+        php -v
+        php -m
+
+    - name: Validate composer.json
+      run: composer validate --strict --no-interaction
+
+    - name: Install dependencies
+      run: composer update --no-progress --no-interaction
+
+    - name: Run tests
+      run: composer test

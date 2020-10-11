@@ -1,0 +1,41 @@
+{
+	"name": "spaze/phpinfo",
+	"description": "Extract phpinfo() into a variable and move CSS to external file.",
+	"keywords": ["PHP","phpinfo"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Michal Špaček",
+			"homepage": "https://www.michalspacek.com/",
+			"email": "mail@michalspacek.cz"
+		}
+	],
+	"require": {
+		"php": ">=7.1"
+	},
+	"require-dev": {
+		"php-parallel-lint/php-parallel-lint": "^1.2",
+		"php-parallel-lint/php-console-highlighter": "^0.5.0",
+		"phpstan/phpstan": "^0.12.44",
+		"spaze/coding-standard": "^0.0.3",
+		"nette/tester": "^2.3"
+	},
+	"autoload": {
+		"psr-4": {
+			"Spaze\\PhpInfo\\": "src/"
+		}
+	},
+	"minimum-stability": "stable",
+	"scripts": {
+		"lint": "vendor/bin/parallel-lint --colors src/",
+		"phpcs": "vendor/bin/phpcs src/",
+		"phpstan": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
+		"tester": "vendor/nette/tester/src/tester --colors 1 tests/",
+		"test": [
+			"@lint",
+			"@phpcs",
+			"@phpstan",
+			"@tester"
+		]
+	}
+}

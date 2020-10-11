@@ -1,0 +1,72 @@
+#phpinfo {
+	color: #222;
+	font-family: sans-serif;
+	margin: 1em auto;
+	text-align: center;
+}
+#phpinfo a:link {
+	color: #009;
+	text-decoration: none;
+	background-color: #fff;
+}
+#phpinfo a:hover { text-decoration: underline; }
+#phpinfo table {
+	border-collapse: collapse;
+	white-space: normal;
+	border: 0;
+	width: 800px;
+	box-shadow: 1px 2px 3px #CCC;
+	margin: 1em auto;
+	text-align: left;
+}
+#phpinfo th { text-align: center !important; }
+#phpinfo td, th {
+	border: 1px solid #666;
+	font-size: 75%;
+	vertical-align: baseline;
+	padding: 4px 5px;
+}
+#phpinfo h1 {
+	color: #000;
+	text-shadow: none;
+	text-align: center;
+	margin: 0.5em auto;
+	font-size: 150%;
+}
+#phpinfo h2, #phpinfo h2 a {
+	color: #000;
+	text-shadow: none;
+	text-align: center;
+}
+#phpinfo .p { text-align: left; }
+#phpinfo .e {
+	background-color: #CCF;
+	width: 300px;
+	font-weight: bold;
+}
+#phpinfo .h {
+	background-color: #99C;
+	font-weight: bold;
+}
+#phpinfo .v {
+	background-color: #DDD;
+	max-width: 200px;
+	overflow-x: auto;
+}
+#phpinfo .v i { color: #999; }
+#phpinfo img {
+	float: right;
+	border: 0;
+}
+#phpinfo hr {
+	width: 800px;
+	background-color: #CCC;
+	border: 0;
+	height: 1px;
+	margin: auto;
+}
+#phpinfo .color-FF8000 { color: #FF8000; }
+#phpinfo .color-0000BB { color: #0000BB; }
+#phpinfo .color-000000 { color: #000000; }
+#phpinfo .color-007700 { color: #007700; }
+#phpinfo .color-DD0000 { color: #DD0000; }
