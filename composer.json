@@ -37,5 +37,10 @@
 			"@phpstan",
 			"@tester"
 		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
 	}
 }
