@@ -16,3 +16,17 @@ An example usage with Nette Framework (can be used with other frameworks or stan
 ```php
 $this->template->phpinfo = Html::el()->setHtml($this->phpInfo->getHtml());
 ```
+
+## Sanitization
+By default, session id (as returned by `session_id()`) will be sanitized and replaced by `[***]` in the output.
+This is to prevent some session hijacking attacks that would read the session id from the cookie value reflected in the `phpinfo()` output.
+You can disable that by calling `doNotSanitizeSessionId()` but it's totally not recommended. Do not disable that. Please.
+
+You can add own strings to be sanitized in the output with
+```php
+addSanitization(string $sanitize, ?string $with = null): self
+```
+If found, the string in `$sanitize` will be replaced with the string `$with`, if `$with` is null then the default `[***]` will be used instead.
+
+Some of the values in `phpinfo()` output are printed URL-encoded, so the `$sanitize` value will also be searched URL-encoded automatically.
+This means that both `foo,bar` and `foo%2Cbar` would be replaced.
