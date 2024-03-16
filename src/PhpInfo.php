@@ -28,6 +28,7 @@ class PhpInfo
 		}
 		$sanitize = $this->sanitize + $sanitize;
 		foreach ($sanitize as $search => $replace) {
+			$search = (string)$search;
 			$replacements[$search] = $replace;
 			$replacements[urlencode($search)] = $replace;
 		}
