@@ -76,6 +76,23 @@ class PhpInfoTest extends TestCase
 		Assert::contains(self::WALDO_1338, $html);
 	}
 
+
+	public function testGetHtmlNumericSessionId(): void
+	{
+		$sessionId = '31337';
+		$_COOKIE['PHPSESSID'] = $sessionId;
+
+		// Set a new session id
+		session_destroy();
+		session_set_save_handler(new TestSessionHandler($sessionId));
+		session_start();
+
+		Assert::noError(function () use ($sessionId, &$html): void {
+			$html = (new PhpInfo())->getHtml();
+		});
+		Assert::notContains($sessionId, $html);
+	}
+
 }
 
 (new PhpInfoTest())->run();
