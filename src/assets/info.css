@@ -1,8 +1,10 @@
 #phpinfo {
 	color: #222;
 	font-family: sans-serif;
-	margin: 1em auto;
-	text-align: center;
+}
+#phpinfo pre {
+	margin: 0;
+	font-family: monospace;
 }
 #phpinfo a:link {
 	color: #009;
@@ -14,44 +16,57 @@
 	border-collapse: collapse;
 	white-space: normal;
 	border: 0;
-	width: 800px;
-	box-shadow: 1px 2px 3px #CCC;
+	width: 934px;
+	box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+	margin: 1em auto;
+}
+#phpinfo .center { text-align: center; }
+#phpinfo .center table {
 	margin: 1em auto;
 	text-align: left;
 }
-#phpinfo th { text-align: center !important; }
-#phpinfo td, th {
+#phpinfo .center th { text-align: center !important; }
+#phpinfo td, #phpinfo th {
 	border: 1px solid #666;
 	font-size: 75%;
 	vertical-align: baseline;
 	padding: 4px 5px;
 }
+#phpinfo th {
+	position: sticky;
+	top: 0;
+	background: inherit;
+}
 #phpinfo h1 {
-	color: #000;
-	text-shadow: none;
+	color: #222;
 	text-align: center;
 	margin: 0.5em auto;
 	font-size: 150%;
 }
-#phpinfo h2, #phpinfo h2 a {
-	color: #000;
-	text-shadow: none;
+#phpinfo h2 {
+	color: #222;
+	font-size: 125%;
 	text-align: center;
+}
+#phpinfo h2 a:link, #phpinfo h2 a:visited {
+	color: inherit;
+	background: inherit;
 }
 #phpinfo .p { text-align: left; }
 #phpinfo .e {
-	background-color: #CCF;
+	background-color: #ccf;
 	width: 300px;
 	font-weight: bold;
 }
 #phpinfo .h {
-	background-color: #99C;
+	background-color: #99c;
 	font-weight: bold;
 }
 #phpinfo .v {
 	background-color: #DDD;
-	max-width: 200px;
+	max-width: 300px;
 	overflow-x: auto;
+	word-wrap: break-word;
 }
 #phpinfo .v i { color: #999; }
 #phpinfo img {
@@ -59,11 +74,21 @@
 	border: 0;
 }
 #phpinfo hr {
-	width: 800px;
+	width: 934px;
 	background-color: #CCC;
 	border: 0;
 	height: 1px;
 	margin: auto;
+}
+@media (prefers-color-scheme: dark) {
+	#phpinfo { color: #E2E4EF; }
+	#phpinfo h1, #phpinfo h2 { color: #E2E4EF; }
+	#phpinfo .h td, #phpinfo td.e, #phpinfo th { border-color: #606A90; }
+	#phpinfo td { border-color: #505153; }
+	#phpinfo .e { background-color: #404A77; }
+	#phpinfo .h { background-color: #4F5B93; }
+	#phpinfo .v { background-color: #333; }
+	#phpinfo hr { background-color: #505153; }
 }
 #phpinfo .color-FF8000 { color: #FF8000; }
 #phpinfo .color-0000BB { color: #0000BB; }
