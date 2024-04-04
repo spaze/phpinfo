@@ -3,16 +3,22 @@ declare(strict_types = 1);
 
 namespace Spaze\PhpInfo;
 
+use ReturnTypeWillChange;
 use SessionHandlerInterface;
 use SessionIdInterface;
 
 class TestSessionHandler implements SessionHandlerInterface, SessionIdInterface
 {
 
-	public function __construct(
-		private string $sessionId,
-		private array $data = [],
-	) {
+	private string $sessionId;
+
+	/** @var array<string, string> */
+	private array $data = [];
+
+
+	public function __construct(string $sessionId)
+	{
+		$this->sessionId = $sessionId;
 	}
 
 
@@ -22,7 +28,13 @@ class TestSessionHandler implements SessionHandlerInterface, SessionIdInterface
 	}
 
 
-	public function open(string $path, string $name): bool
+	/**
+	 * @param string $path
+	 * @param string $name
+	 * @return true
+	 */
+	#[ReturnTypeWillChange]
+	public function open($path, $name)
 	{
 		return true;
 	}
@@ -34,25 +46,46 @@ class TestSessionHandler implements SessionHandlerInterface, SessionIdInterface
 	}
 
 
-	public function destroy(string $id): bool
+	/**
+	 * @param string $id
+	 * @return bool
+	 */
+	#[ReturnTypeWillChange]
+	public function destroy($id)
 	{
 		return true;
 	}
 
 
-	public function gc(int $max_lifetime): int|false
+	/**
+	 * @param int $max_lifetime
+	 * @return int
+	 */
+	#[ReturnTypeWillChange]
+	public function gc($max_lifetime)
 	{
 		return 0;
 	}
 
 
-	public function read(string $id): string|false
+	/**
+	 * @param string $id
+	 * @return string
+	 */
+	#[ReturnTypeWillChange]
+	public function read($id)
 	{
 		return $this->data[$id] ?? '';
 	}
 
 
-	public function write(string $id, string $data): bool
+	/**
+	 * @param string $id
+	 * @param string $data
+	 * @return bool
+	 */
+	#[ReturnTypeWillChange]
+	public function write($id, $data)
 	{
 		$this->data[$id] = $data;
 		return true;
