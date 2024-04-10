@@ -30,3 +30,18 @@ If found, the string in `$sanitize` will be replaced with the string `$with`, if
 
 Some of the values in `phpinfo()` output are printed URL-encoded, so the `$sanitize` value will also be searched URL-encoded automatically.
 This means that both `foo,bar` and `foo%2Cbar` would be replaced.
+
+## Sanitizing arbitrary strings
+If you have your `phpinfo()` output (or anything really) in a string, you can use the sanitizer standalone, for example:
+```php
+$sanitizer = new SensitiveValueSanitizer();
+$string = $sanitizer->addSanitization('🍍', '🍌')->sanitize('🍍🍕');
+```
+
+The sanitizer will sanitize session id automatically, you can (but shouldn't) disable it with `doNotSanitizeSessionId()`.
+
+You can then pass the configured sanitizer to `PhpInfo` class which will then use your configuration for sanitizing the `phpinfo()` output too:
+```php
+$phpInfo = new PhpInfo($sanitizer);
+$html = $phpInfo->getHtml();
+```

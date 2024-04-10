@@ -6,12 +6,13 @@ namespace Spaze\PhpInfo;
 class PhpInfo
 {
 
-	private bool $sanitizeSessionId = true;
+	private SensitiveValueSanitizer $sanitizer;
 
-	private string $sanitizeWith = '[***]';
 
-	/** @var array<string, string> */
-	private array $sanitize = [];
+	public function __construct(?SensitiveValueSanitizer $sanitizer = null)
+	{
+		$this->sanitizer = $sanitizer ?? new SensitiveValueSanitizer();
+	}
 
 
 	public function getHtml(): string
@@ -21,25 +22,9 @@ class PhpInfo
 		phpinfo();
 		$info = preg_replace('~^.*?(<table[^>]*>.*</table>).*$~s', '$1', ob_get_clean() ?: $error) ?? $error;
 		// Convert inline styles to classes defined in admin/info.css so we can drop CSP style-src 'unsafe-inline'
-		$replacements['style="color: #'] = 'class="color-';
-		$sanitize = [];
-		if ($this->sanitizeSessionId && $this->getSessionId() !== null) {
-			$sanitize[$this->getSessionId()] = $this->sanitizeWith;
-		}
-		$sanitize = $this->sanitize + $sanitize;
-		foreach ($sanitize as $search => $replace) {
-			$search = (string)$search;
-			$replacements[$search] = $replace;
-			$replacements[urlencode($search)] = $replace;
-		}
-		$info = strtr($info, $replacements);
+		$info = str_replace('style="color: #', 'class="color-', $info);
+		$info = $this->sanitizer->sanitize($info);
 		return sprintf('<div id="phpinfo">%s</div>', $info);
-	}
-
-
-	private function getSessionId(): ?string
-	{
-		return session_id() ?: null;
 	}
 
 
@@ -49,14 +34,14 @@ class PhpInfo
 	 */
 	public function doNotSanitizeSessionId(): self
 	{
-		$this->sanitizeSessionId = false;
+		$this->sanitizer->doNotSanitizeSessionId();
 		return $this;
 	}
 
 
 	public function addSanitization(string $sanitize, ?string $with = null): self
 	{
-		$this->sanitize[$sanitize] = $with ?? $this->sanitizeWith;
+		$this->sanitizer->addSanitization($sanitize, $with);
 		return $this;
 	}
 

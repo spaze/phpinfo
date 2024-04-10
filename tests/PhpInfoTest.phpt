@@ -79,20 +79,14 @@ class PhpInfoTest extends TestCase
 	}
 
 
-	public function testGetHtmlNumericSessionId(): void
+	public function testGetHtmlSessionIdSanitizationCustomSanitizer(): void
 	{
-		$sessionId = '31337';
-		$_COOKIE['PHPSESSID'] = $sessionId;
-
-		// Set a new session id
-		session_destroy();
-		session_set_save_handler(new TestSessionHandler($sessionId));
-		session_start();
-
-		Assert::noError(function () use ($sessionId, &$html): void {
-			$html = (new PhpInfo())->getHtml();
-		});
-		Assert::notContains($sessionId, $html);
+		$sanitizer = new SensitiveValueSanitizer();
+		$sanitizer->addSanitization(self::SESSION_ID, '🍕');
+		$html = (new PhpInfo($sanitizer))->getHtml();
+		Assert::notContains(self::SESSION_ID, $html);
+		Assert::notContains(urlencode(self::SESSION_ID), $html);
+		Assert::contains('🍕', $html);
 	}
 
 }
