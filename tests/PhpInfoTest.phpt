@@ -38,6 +38,8 @@ class PhpInfoTest extends TestCase
 		$html = (new PhpInfo())->getHtml();
 		Assert::contains('<div id="phpinfo">', $html);
 		Assert::contains('disable_functions', $html);
+		Assert::contains('class="color-', $html);
+		Assert::notContains('style="color: #', $html);
 	}
 
 
