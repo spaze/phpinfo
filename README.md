@@ -19,8 +19,9 @@ $this->template->phpinfo = Html::el()->setHtml($this->phpInfo->getHtml());
 
 ## Sanitization
 By default, session id (as returned by `session_id()`) will be sanitized and replaced by `[***]` in the output.
-This is to prevent some session hijacking attacks that would read the session id from the cookie value reflected in the `phpinfo()` output.
-You can disable that by calling `doNotSanitizeSessionId()` but it's totally not recommended. Do not disable that. Please.
+This is to prevent some session hijacking attacks that would read the session id from the cookie value reflected in the `phpinfo()` output
+(see my [blog post](https://www.michalspacek.com/stealing-session-ids-with-phpinfo-and-how-to-stop-it) describing the attack, `HttpOnly` bypasses, and the solution).
+You can disable the sanitization by calling `doNotSanitizeSessionId()` but it's totally not recommended. Do not disable that. Please.
 
 You can add own strings to be sanitized in the output with
 ```php
