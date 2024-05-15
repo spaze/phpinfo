@@ -8,13 +8,26 @@ $phpInfo = new \Spaze\PhpInfo\PhpInfo();
 $html = $phpInfo->getHtml();
 ```
 
-`$html` will contain `phpinfo()` output, wrapped in `<div id="phpinfo">` & `</div>`.
+## `getHtml()`
+The `getHtml()` method returns the `phpinfo()` output, without the HTML `head` and `body` elements, wrapped in `<div id="phpinfo">` & `</div>`.
 
 All inline CSS will be "externalized" to CSS classes, you can load `assets/info.css` to get the colors back.
 
 An example usage with Nette Framework (can be used with other frameworks or standalone, too):
 ```php
 $this->template->phpinfo = Html::el()->setHtml($this->phpInfo->getHtml());
+```
+
+Please note that this will also remove the HTML `head` element which contains `meta name="ROBOTS"` tag preventing search engines and other bots indexing the `phpinfo()` output.
+You have to add it back somehow, for example by rendering the `getHtml()` output in your own layout which includes the `head` element with the `meta name="ROBOTS"` tag.
+In general, `phpinfo()` output should be accessible only for authenticated users.
+
+## `getFullPageHtml()`
+Sometimes, you may want to display the classic `phpinfo()` output, with the original HTML `head` and `body` elements, `meta name="ROBOTS"` tag, inline styles etc.,
+but still with the sensitive info sanitized (see below). In that case, you may use `getFullPageHtml()`:
+```php
+$phpInfo = new \Spaze\PhpInfo\PhpInfo();
+echo $phpInfo->getFullPageHtml();
 ```
 
 ## Sanitization

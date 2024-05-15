@@ -43,6 +43,16 @@ class PhpInfoTest extends TestCase
 	}
 
 
+	public function testGetFullPageHtml(): void
+	{
+		$html = (new PhpInfo())->getFullPageHtml();
+		Assert::notContains('<div id="phpinfo">', $html);
+		Assert::contains('disable_functions', $html);
+		Assert::notContains('class="color-', $html);
+		Assert::contains('style="color: #', $html);
+	}
+
+
 	public function testGetHtmlSessionIdSanitization(): void
 	{
 		$html = (new PhpInfo())->getHtml();
