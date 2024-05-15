@@ -18,7 +18,7 @@ $this->template->phpinfo = Html::el()->setHtml($this->phpInfo->getHtml());
 ```
 
 ## Sanitization
-By default, session id (as returned by `session_id()`) will be sanitized and replaced by `[***]` in the output.
+By default, session id (as returned by `session_id()` if session is started, or as stored in `$_COOKIE[session_name()]` if not) will be sanitized and replaced by `[***]` in the output.
 This is to prevent some session hijacking attacks that would read the session id from the cookie value reflected in the `phpinfo()` output
 (see my [blog post](https://www.michalspacek.com/stealing-session-ids-with-phpinfo-and-how-to-stop-it) describing the attack, `HttpOnly` bypasses, and the solution).
 You can disable the sanitization by calling `doNotSanitizeSessionId()` but it's totally not recommended. Do not disable that. Please.
@@ -39,7 +39,22 @@ $sanitizer = new SensitiveValueSanitizer();
 $string = $sanitizer->addSanitization('🍍', '🍌')->sanitize('🍍🍕');
 ```
 
-The sanitizer will sanitize session id automatically, you can (but shouldn't) disable it with `doNotSanitizeSessionId()`.
+The sanitizer will try to determine the session id and sanitize it automatically, you can (but shouldn't) disable it with `doNotSanitizeSessionId()`.
+
+The following values will be automatically used as the session id:
+1. `session_id()` output if not `false`
+2. `$_COOKIE[session_name()]` if it's a string
+
+However, it is not recommended to rely solely on the automated way, because for example you may set the session name somewhere in a custom service,
+and it may not be available for the sanitizer to use. I'd rather suggest you configure the sanitization manually:
+```php
+$sanitizer->addSanitization($this->sessionHandler->getId(), '[***]'); // where $this->sessionHandler is your custom service for example
+```
+or
+```php
+$sanitizer->addSanitization($_COOKIE['MYSESSID'], '[***]'); // where MYSESSID is your session name
+```
+or something like that.
 
 You can then pass the configured sanitizer to `PhpInfo` class which will then use your configuration for sanitizing the `phpinfo()` output too:
 ```php
