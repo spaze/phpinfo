@@ -27,7 +27,13 @@ class SensitiveValueSanitizer
 
 	private function getSessionId(): ?string
 	{
-		return session_id() ?: null;
+		$sessionId = session_id();
+		if ($sessionId) {
+			return $sessionId;
+		} else {
+			$sessionId = $_COOKIE[session_name()] ?? null;
+			return is_string($sessionId) ? $sessionId : null;
+		}
 	}
 
 
