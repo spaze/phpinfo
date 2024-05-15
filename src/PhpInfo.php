@@ -28,6 +28,16 @@ class PhpInfo
 	}
 
 
+	public function getFullPageHtml(): string
+	{
+		$error = 'Cannot get phpinfo() output';
+		ob_start();
+		phpinfo();
+		$info = ob_get_clean() ?: $error;
+		return $this->sanitizer->sanitize($info);
+	}
+
+
 	/**
 	 * WARNING: Not recommended, disabling session id sanitization may allow
 	 * session stealing attacks that read the cookie from the output of phpinfo().
