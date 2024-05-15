@@ -4,7 +4,7 @@ Extract `phpinfo()` into a variable and move CSS to external file.
 This might be handy when you want to show the output from `phpinfo()` to authenticated users only in your site's layout for example.
 
 ```php
-$phpInfo = new PhpInfo();
+$phpInfo = new \Spaze\PhpInfo\PhpInfo();
 $html = $phpInfo->getHtml();
 ```
 
@@ -35,7 +35,7 @@ This means that both `foo,bar` and `foo%2Cbar` would be replaced.
 ## Sanitizing arbitrary strings
 If you have your `phpinfo()` output (or anything really) in a string, you can use the sanitizer standalone, for example:
 ```php
-$sanitizer = new SensitiveValueSanitizer();
+$sanitizer = new \Spaze\PhpInfo\SensitiveValueSanitizer();
 $string = $sanitizer->addSanitization('🍍', '🍌')->sanitize('🍍🍕');
 ```
 
@@ -58,6 +58,6 @@ or something like that.
 
 You can then pass the configured sanitizer to `PhpInfo` class which will then use your configuration for sanitizing the `phpinfo()` output too:
 ```php
-$phpInfo = new PhpInfo($sanitizer);
+$phpInfo = new \Spaze\PhpInfo\PhpInfo($sanitizer);
 $html = $phpInfo->getHtml();
 ```
