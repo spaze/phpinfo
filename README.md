@@ -11,7 +11,7 @@ $html = $phpInfo->getHtml();
 ## `getHtml(int $flags = INFO_ALL): string`
 The `getHtml()` method returns the `phpinfo()` output, without the HTML `head` and `body` elements, wrapped in `<div id="phpinfo">` & `</div>`.
 
-All inline CSS will be "externalized" to CSS classes, you can load `assets/info.css` to get the colors back.
+All inline CSS will be "externalized" to CSS classes, you can load `src/assets/info.css` to get the colors back (or `vendor/spaze/phpinfo/src/assets/info.css` when installed via Composer).
 
 An example usage with Nette Framework (can be used with other frameworks or standalone, too):
 ```php
