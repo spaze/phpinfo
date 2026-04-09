@@ -15,11 +15,11 @@ class PhpInfo
 	}
 
 
-	public function getHtml(): string
+	public function getHtml(int $flags = \INFO_ALL): string
 	{
 		$error = 'Cannot get phpinfo() output';
 		ob_start();
-		phpinfo();
+		phpinfo($flags);
 		$info = preg_replace('~^.*?(<table[^>]*>.*</table>).*$~s', '$1', ob_get_clean() ?: $error) ?? $error;
 		// Convert inline styles to classes defined in admin/info.css so we can drop CSP style-src 'unsafe-inline'
 		$info = str_replace('style="color: #', 'class="color-', $info);
@@ -28,11 +28,11 @@ class PhpInfo
 	}
 
 
-	public function getFullPageHtml(): string
+	public function getFullPageHtml(int $flags = \INFO_ALL): string
 	{
 		$error = 'Cannot get phpinfo() output';
 		ob_start();
-		phpinfo();
+		phpinfo($flags);
 		$info = ob_get_clean() ?: $error;
 		return $this->sanitizer->sanitize($info);
 	}

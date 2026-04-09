@@ -89,6 +89,38 @@ class PhpInfoTest extends TestCase
 	}
 
 
+	public function testGetHtmlWithFlagsIncludesSection(): void
+	{
+		$html = (new PhpInfo())->getHtml(INFO_CONFIGURATION);
+		Assert::contains('<div id="phpinfo">', $html);
+		Assert::contains('disable_functions', $html);
+	}
+
+
+	public function testGetHtmlWithFlagsExcludesSection(): void
+	{
+		$html = (new PhpInfo())->getHtml(INFO_GENERAL);
+		Assert::contains('<div id="phpinfo">', $html);
+		Assert::notContains('disable_functions', $html);
+	}
+
+
+	public function testGetFullPageHtmlWithFlagsIncludesSection(): void
+	{
+		$html = (new PhpInfo())->getFullPageHtml(INFO_CONFIGURATION);
+		Assert::notContains('<div id="phpinfo">', $html);
+		Assert::contains('disable_functions', $html);
+	}
+
+
+	public function testGetFullPageHtmlWithFlagsExcludesSection(): void
+	{
+		$html = (new PhpInfo())->getFullPageHtml(INFO_GENERAL);
+		Assert::notContains('<div id="phpinfo">', $html);
+		Assert::notContains('disable_functions', $html);
+	}
+
+
 	public function testGetHtmlSessionIdSanitizationCustomSanitizer(): void
 	{
 		$sanitizer = new SensitiveValueSanitizer();
