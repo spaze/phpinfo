@@ -28,12 +28,16 @@ class SensitiveValueSanitizer
 	private function getSessionId(): ?string
 	{
 		$sessionId = session_id();
-		if ($sessionId) {
+		if ($sessionId !== false && $sessionId !== '') {
 			return $sessionId;
-		} else {
-			$sessionId = $_COOKIE[session_name()] ?? null;
-			return is_string($sessionId) ? $sessionId : null;
 		}
+		$sessionName = \session_name();
+		if ($sessionName === false) {
+			$sessionId = null;
+		} else {
+			$sessionId = $_COOKIE[$sessionName] ?? null;
+		}
+		return is_string($sessionId) ? $sessionId : null;
 	}
 
 
