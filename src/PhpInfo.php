@@ -11,7 +11,7 @@ use function sprintf;
 use function str_replace;
 use const INFO_ALL;
 
-class PhpInfo
+final class PhpInfo
 {
 
 	private SensitiveValueSanitizer $sanitizer;
