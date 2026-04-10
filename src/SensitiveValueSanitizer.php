@@ -14,10 +14,13 @@ class SensitiveValueSanitizer
 
 	private bool $sanitizeSessionId = true;
 
-	private string $sanitizeWith = '[***]';
-
 	/** @var array<string, string> */
 	private array $sanitize = [];
+
+
+	public function __construct(private string $sanitizeWith = '[***]')
+	{
+	}
 
 
 	public function sanitize(string $info): string
