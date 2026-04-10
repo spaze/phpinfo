@@ -5,6 +5,11 @@ namespace Spaze\PhpInfo;
 
 use Tester\Assert;
 use Tester\TestCase;
+use function session_destroy;
+use function session_set_save_handler;
+use function session_start;
+use function sprintf;
+use function urlencode;
 
 require __DIR__ . '/bootstrap.php';
 
