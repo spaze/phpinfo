@@ -26,9 +26,12 @@ final class SensitiveValueSanitizer
 	public function sanitize(string $info): string
 	{
 		$sanitize = [];
-		if ($this->sanitizeSessionId && $this->getSessionId() !== null) {
-			$sanitize[$this->getSessionId()] = $this->sanitizeWith;
-			$sanitize[urlencode($this->getSessionId())] = $this->sanitizeWith;
+		if ($this->sanitizeSessionId) {
+			$sessionId = $this->getSessionId();
+			if ($sessionId !== null) {
+				$sanitize[$sessionId] = $this->sanitizeWith;
+				$sanitize[urlencode($sessionId)] = $this->sanitizeWith;
+			}
 		}
 		return strtr($info, $this->sanitize + $sanitize);
 	}
