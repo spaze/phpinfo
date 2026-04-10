@@ -9,7 +9,7 @@ use function session_name;
 use function strtr;
 use function urlencode;
 
-class SensitiveValueSanitizer
+final class SensitiveValueSanitizer
 {
 
 	private bool $sanitizeSessionId = true;
