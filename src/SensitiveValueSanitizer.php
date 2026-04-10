@@ -3,6 +3,12 @@ declare(strict_types = 1);
 
 namespace Spaze\PhpInfo;
 
+use function is_string;
+use function session_id;
+use function session_name;
+use function strtr;
+use function urlencode;
+
 class SensitiveValueSanitizer
 {
 
@@ -31,7 +37,7 @@ class SensitiveValueSanitizer
 		if ($sessionId !== false && $sessionId !== '') {
 			return $sessionId;
 		}
-		$sessionName = \session_name();
+		$sessionName = session_name();
 		if ($sessionName === false) {
 			$sessionId = null;
 		} else {

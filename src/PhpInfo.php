@@ -3,6 +3,14 @@ declare(strict_types = 1);
 
 namespace Spaze\PhpInfo;
 
+use function ob_get_clean;
+use function ob_start;
+use function phpinfo;
+use function preg_replace;
+use function sprintf;
+use function str_replace;
+use const INFO_ALL;
+
 class PhpInfo
 {
 
@@ -15,7 +23,7 @@ class PhpInfo
 	}
 
 
-	public function getHtml(int $flags = \INFO_ALL): string
+	public function getHtml(int $flags = INFO_ALL): string
 	{
 		$error = '<div id="phpinfo">Cannot get phpinfo() output</div>';
 		ob_start();
@@ -35,7 +43,7 @@ class PhpInfo
 	}
 
 
-	public function getFullPageHtml(int $flags = \INFO_ALL): string
+	public function getFullPageHtml(int $flags = INFO_ALL): string
 	{
 		ob_start();
 		phpinfo($flags);
