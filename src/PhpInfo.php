@@ -36,7 +36,7 @@ final class PhpInfo
 		if ($info === null) {
 			return $error;
 		}
-		// Convert inline styles to classes defined in admin/info.css so we can drop CSP style-src 'unsafe-inline'
+		// Convert inline styles to classes defined in src/assets/info.css so we can drop CSP style-src 'unsafe-inline'
 		$info = str_replace('style="color: #', 'class="color-', $info);
 		$info = $this->sanitizer->sanitize($info);
 		return sprintf('<div id="phpinfo">%s</div>', $info);
