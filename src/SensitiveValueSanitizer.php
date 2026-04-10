@@ -49,7 +49,7 @@ final class SensitiveValueSanitizer
 		} else {
 			$sessionId = $_COOKIE[$sessionName] ?? null;
 		}
-		return is_string($sessionId) ? $sessionId : null;
+		return is_string($sessionId) && $sessionId !== '' ? $sessionId : null;
 	}
 
 
