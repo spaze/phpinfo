@@ -62,6 +62,54 @@ class SensitiveValueSanitizerTest extends TestCase
 	}
 
 
+	public function testSanitizeSessionIdDefaultReplacement(): void
+	{
+		$sanitizer = new SensitiveValueSanitizer();
+		$sanitizer->addSanitization(self::SESSION_ID);
+		$string = $sanitizer->sanitize($this->string);
+		Assert::contains('waldo', $string);
+		Assert::notContains(self::SESSION_ID, $string);
+		Assert::notContains(urlencode(self::SESSION_ID), $string);
+		Assert::contains('[***]', $string);
+	}
+
+
+	public function testSanitizeSessionIdDefaultCustomReplacement(): void
+	{
+		$sanitizer = new SensitiveValueSanitizer('yeah nah yeah');
+		$sanitizer->addSanitization(self::SESSION_ID);
+		$string = $sanitizer->sanitize($this->string);
+		Assert::contains('waldo', $string);
+		Assert::notContains(self::SESSION_ID, $string);
+		Assert::notContains(urlencode(self::SESSION_ID), $string);
+		Assert::contains('yeah nah yeah', $string);
+	}
+
+
+	public function testSanitizeAutomaticSessionIdUsesCustomDefaultReplacement(): void
+	{
+		$sanitizer = new SensitiveValueSanitizer('yeah nah yeah');
+		$string = $sanitizer->sanitize($this->string);
+		Assert::contains('waldo', $string);
+		Assert::notContains(self::SESSION_ID, $string);
+		Assert::notContains(urlencode(self::SESSION_ID), $string);
+		Assert::contains('yeah nah yeah', $string);
+		Assert::notContains('[***]', $string);
+	}
+
+
+	public function testSanitizeSessionIdDefaultReplacementOverriddenExplicitly(): void
+	{
+		$sanitizer = new SensitiveValueSanitizer('yeah nah yeah');
+		$sanitizer->addSanitization(self::SESSION_ID, '🦘');
+		$string = $sanitizer->sanitize($this->string);
+		Assert::contains('waldo', $string);
+		Assert::notContains(self::SESSION_ID, $string);
+		Assert::notContains(urlencode(self::SESSION_ID), $string);
+		Assert::contains('🦘', $string);
+	}
+
+
 	public function testSanitizeDoNotSanitizeSessionIdButWhy(): void
 	{
 		$string = (new SensitiveValueSanitizer())->doNotSanitizeSessionId()->sanitize($this->string);

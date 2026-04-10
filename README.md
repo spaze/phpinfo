@@ -44,7 +44,15 @@ You can add own strings to be sanitized in the output with
 ```php
 addSanitization(string $sanitize, ?string $with = null): self
 ```
-If found, the string in `$sanitize` will be replaced with the string `$with`, if `$with` is null then the default `[***]` will be used instead.
+If found, the string in `$sanitize` will be replaced with the string `$with`; if `$with` is null then the sanitizer's default replacement string will be used instead.
+The sanitizer's default replacement is `[***]` unless you pass a custom string to `Spaze\PhpInfo\SensitiveValueSanitizer`.
+
+To change the default sanitization from `[***]` to a custom string, pass the string to `Spaze\PhpInfo\SensitiveValueSanitizer` and then pass the sanitizer to `Spaze\PhpInfo\PhpInfo`:
+```php
+$sanitizer = new \Spaze\PhpInfo\SensitiveValueSanitizer('🦘');
+$phpInfo = new \Spaze\PhpInfo\PhpInfo($sanitizer);
+$html = $phpInfo->getHtml();
+```
 
 Some of the values in `phpinfo()` output are printed URL-encoded, so the `$sanitize` value will also be searched URL-encoded automatically.
 This means that both `foo,bar` and `foo%2Cbar` would be replaced.
