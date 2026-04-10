@@ -23,11 +23,7 @@ class PhpInfoTest extends TestCase
 	protected function setUp(): void
 	{
 		$_SERVER['HTTP_WALDO_FRED'] = self::WALDO_1337;
-		$_SERVER['HTTP_COOKIE'] = 'PHPSESSID=' . urlencode(self::SESSION_ID);
-		$_COOKIE['PHPSESSID'] = self::SESSION_ID;
-
-		session_set_save_handler(new TestSessionHandler(self::SESSION_ID));
-		session_start();
+		$this->sessionStart(self::SESSION_ID);
 	}
 
 
@@ -133,6 +129,25 @@ class PhpInfoTest extends TestCase
 		Assert::notContains(self::SESSION_ID, $html);
 		Assert::notContains(urlencode(self::SESSION_ID), $html);
 		Assert::contains('🍕', $html);
+	}
+
+
+	public function testGetHtmlEmptySessionCookie(): void
+	{
+		session_destroy();
+		$this->sessionStart('');
+		Assert::noError(function (): void {
+			(new PhpInfo())->getHtml();
+		});
+	}
+
+
+	private function sessionStart(string $sessionId): void
+	{
+		$_SERVER['HTTP_COOKIE'] = 'PHPSESSID=' . urlencode($sessionId);
+		$_COOKIE['PHPSESSID'] = $sessionId;
+		session_set_save_handler(new TestSessionHandler($sessionId));
+		session_start();
 	}
 
 }

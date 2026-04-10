@@ -26,9 +26,12 @@ final class SensitiveValueSanitizer
 	public function sanitize(string $info): string
 	{
 		$sanitize = [];
-		if ($this->sanitizeSessionId && $this->getSessionId() !== null) {
-			$sanitize[$this->getSessionId()] = $this->sanitizeWith;
-			$sanitize[urlencode($this->getSessionId())] = $this->sanitizeWith;
+		if ($this->sanitizeSessionId) {
+			$sessionId = $this->getSessionId();
+			if ($sessionId !== null) {
+				$sanitize[$sessionId] = $this->sanitizeWith;
+				$sanitize[urlencode($sessionId)] = $this->sanitizeWith;
+			}
 		}
 		return strtr($info, $this->sanitize + $sanitize);
 	}
@@ -46,7 +49,7 @@ final class SensitiveValueSanitizer
 		} else {
 			$sessionId = $_COOKIE[$sessionName] ?? null;
 		}
-		return is_string($sessionId) ? $sessionId : null;
+		return is_string($sessionId) && $sessionId !== '' ? $sessionId : null;
 	}
 
 
@@ -61,6 +64,9 @@ final class SensitiveValueSanitizer
 	}
 
 
+	/**
+	 * @param non-empty-string $sanitize
+	 */
 	public function addSanitization(string $sanitize, ?string $with = null): self
 	{
 		$this->sanitize[$sanitize] = $this->sanitize[urlencode($sanitize)] = $with ?? $this->sanitizeWith;

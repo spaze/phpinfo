@@ -1,6 +1,6 @@
 {
 	"name": "spaze/phpinfo",
-	"description": "Extract phpinfo() into a variable and move CSS to external file.",
+	"description": "Extract phpinfo() output into a variable, sanitize sensitive values, and move inline styles to external CSS.",
 	"keywords": ["PHP","phpinfo"],
 	"license": "MIT",
 	"authors": [
