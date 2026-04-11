@@ -64,11 +64,11 @@ final class SensitiveValueSanitizer
 	}
 
 
-	/**
-	 * @param non-empty-string $sanitize
-	 */
 	public function addSanitization(string $sanitize, ?string $with = null): self
 	{
+		if ($sanitize === '') {
+			return $this;
+		}
 		$this->sanitize[$sanitize] = $this->sanitize[urlencode($sanitize)] = $with ?? $this->sanitizeWith;
 		return $this;
 	}
