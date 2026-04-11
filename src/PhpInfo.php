@@ -66,9 +66,6 @@ final class PhpInfo
 	}
 
 
-	/**
-	 * @param non-empty-string $sanitize
-	 */
 	public function addSanitization(string $sanitize, ?string $with = null): self
 	{
 		$this->sanitizer->addSanitization($sanitize, $with);

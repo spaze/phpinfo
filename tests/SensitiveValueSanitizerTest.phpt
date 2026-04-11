@@ -143,6 +143,16 @@ class SensitiveValueSanitizerTest extends TestCase
 		Assert::notContains($sessionId, $html);
 	}
 
+
+	public function testAddSanitizationEmptyString(): void
+	{
+		Assert::noError(function () use (&$string): void {
+			$string = (new SensitiveValueSanitizer())->addSanitization('', '💫')->sanitize('foo');
+		});
+		Assert::same('foo', $string);
+		Assert::notContains('💫', $string);
+	}
+
 }
 
 (new SensitiveValueSanitizerTest())->run();
