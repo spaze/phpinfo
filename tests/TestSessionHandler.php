@@ -5,9 +5,8 @@ namespace Spaze\PhpInfo;
 
 use ReturnTypeWillChange;
 use SessionHandlerInterface;
-use SessionIdInterface;
 
-class TestSessionHandler implements SessionHandlerInterface, SessionIdInterface
+class TestSessionHandler implements SessionHandlerInterface
 {
 
 	private string $sessionId;
@@ -25,6 +24,12 @@ class TestSessionHandler implements SessionHandlerInterface, SessionIdInterface
 	public function create_sid(): string
 	{
 		return $this->sessionId;
+	}
+
+
+	public function validateId(string $id): bool
+	{
+		return $id === $this->sessionId;
 	}
 
 
